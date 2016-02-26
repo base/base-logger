@@ -1,0 +1,26 @@
+{
+  "name": "base-logger",
+  "description": "Add a verbalize logger to your base applicatin.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/node-base/base-logger",
+  "author": "Brian Woodward (https://github.com/doowb)",
+  "repository": "node-base/base-logger",
+  "bugs": "https://github.com/node-base/base-logger/issues",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "keywords": [
+  ]
+}
