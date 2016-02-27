@@ -8,7 +8,8 @@
   "bugs": "https://github.com/node-base/base-logger/issues",
   "license": "MIT",
   "files": [
-    "index.js"
+    "index.js",
+    "utils.js"
   ],
   "main": "index.js",
   "engines": {
@@ -18,9 +19,19 @@
     "test": "mocha"
   },
   "devDependencies": {
+    "base": "^0.7.9",
+    "capture-stream": "^0.1.2",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-istanbul": "^0.10.3",
+    "gulp-mocha": "^2.2.0",
     "mocha": "*",
     "should": "*"
   },
-  "keywords": [
-  ]
+  "keywords": [],
+  "dependencies": {
+    "extend-shallow": "^2.0.1",
+    "lazy-cache": "^1.0.3",
+    "verbalize": "jonschlinkert/verbalize#event-logger"
+  }
 }
