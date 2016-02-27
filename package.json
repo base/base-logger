@@ -31,6 +31,7 @@
   },
   "keywords": [],
   "dependencies": {
+    "define-property": "^0.2.5",
     "extend-shallow": "^2.0.1",
     "lazy-cache": "^1.0.3",
     "verbalize": "jonschlinkert/verbalize#event-logger"

@@ -25,6 +25,7 @@ require = utils; // eslint-disable-line no-native-reassign
  */
 
 require('extend-shallow', 'extend');
+require('define-property', 'define');
 require('verbalize');
 
 /**
@@ -32,6 +33,22 @@ require('verbalize');
  */
 
 require = fn; // eslint-disable-line no-native-reassign
+
+utils.sync = function(obj, prop, val) {
+  utils.define(obj, prop, {
+    configurable: true,
+    enumerable: true,
+    set: function(v) {
+      utils.define(obj, prop, v);
+    },
+    get: function() {
+      if (typeof val === 'function') {
+        return val.call(obj);
+      }
+      return val;
+    }
+  });
+};
 
 /**
  * Expose `utils` modules
