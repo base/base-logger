@@ -23,6 +23,7 @@
     "capture-stream": "^0.1.2",
     "gulp": "^3.9.1",
     "gulp-eslint": "^2.0.0",
+    "gulp-format-md": "^0.1.7",
     "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "^2.2.0",
     "mocha": "*",
@@ -33,5 +34,20 @@
     "extend-shallow": "^2.0.1",
     "lazy-cache": "^1.0.3",
     "verbalize": "jonschlinkert/verbalize#event-logger"
+  },
+  "verb": {
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "related": {
+      "list": [
+        "log-events",
+        "vebalize"
+      ]
+    }
   }
 }
