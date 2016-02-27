@@ -36,8 +36,12 @@ module.exports = function logger(options) {
 
   return function plugin(app) {
     if (typeof this['logger'] !== 'undefined') return;
+    var self = this;
     var logger = new Logger();
-    logger.options = this.options;
+    utils.sync(logger, 'options', function() {
+      return self.options;
+    });
+
     logger.on('addLogger', addMethod(this));
     logger.on('addMode', addMethod(this));
 
