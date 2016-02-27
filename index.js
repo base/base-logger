@@ -9,11 +9,32 @@
 
 var utils = require('./utils');
 
-module.exports = function(options) {
+/**
+ * Add [verbalize][] instance to app as `.logger`.
+ * Adds logger and mode methods to the `app` directly for easy logging.
+ * Sets up a default listener to handle log events and write messages to
+ * `process.stdout`
+ *
+ * Pass `options.defaultListener = false` to disable the default listener.
+ *
+ * ```js
+ * var options {
+ *   defaultListener: true
+ * };
+ *
+ * app.use(logger(options));
+ * app.verbose.info('info message');
+ * ```
+ * @param  {Objects} `options` Options used when creating the logger.
+ * @return {Function} plugin function to pass to `app.use`
+ * @api public
+ */
+
+module.exports = function logger(options) {
   var opts = utils.extend({defaultListener: true}, options);
   var Logger = utils.verbalize.create();
 
-  return function(app) {
+  return function plugin(app) {
     if (typeof this['logger'] !== 'undefined') return;
     var logger = new Logger();
     logger.options = this.options;
