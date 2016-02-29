@@ -1,6 +1,6 @@
 # base-logger [![NPM version](https://img.shields.io/npm/v/base-logger.svg)](https://www.npmjs.com/package/base-logger) [![Build Status](https://img.shields.io/travis/node-base/base-logger.svg)](https://travis-ci.org/node-base/base-logger)
 
-> Add a verbalize logger to your base applicatin.
+> Add a verbalize logger to your base application.
 
 ## Install
 
