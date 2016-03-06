@@ -32,13 +32,18 @@ var utils = require('./utils');
 
 module.exports = function logger(options) {
   var opts = utils.extend({defaultListener: true}, options);
-  var Logger = utils.verbalize.create();
 
   return function plugin(app) {
+    if (!app.enabled('logger')) {
+      return;
+    }
+
     if (app.isRegistered('base-logger')) {
       return;
     }
+
     var self = this;
+    var Logger = utils.verbalize.create();
     var logger = new Logger();
     utils.sync(logger, 'options', function() {
       return self.options;
