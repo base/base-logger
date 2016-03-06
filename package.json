@@ -1,7 +1,7 @@
 {
   "name": "base-logger",
   "description": "Add a verbalize logger to your base application.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/node-base/base-logger",
   "author": "Brian Woodward (https://github.com/doowb)",
   "repository": "node-base/base-logger",
