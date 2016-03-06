@@ -14,13 +14,28 @@ $ npm install base-logger --save
 
 Add `base-logger` to an app.
 
+> App inherited from [base](https://github.com/node-base/base) an uses [base-option](https://github.com/node-base/base-option)
+
 ```js
+var App = require('my-app');
 var logger = require('base-logger');
-var app.use(logger());
+```
+
+> create a new `app` instance setting the `logger` option to `true`
+
+```js
+var app = new App();
+app.option('logger', true);
+```
+
+> add the [base-logger](https://github.com/node-base/base-logger) plugin.
+
+```js
+app.use(logger());
 ```
 
 `.logger` is now an instance of [verbalize](https://github.com/jonschlinkert/verbalize) on `app`.
-All built in logger and mode methods are also exposed on
+All built in emitter, style, and mode methods are also exposed on
 `app` directly.
 
 ```js
@@ -35,7 +50,7 @@ app.not.verbose.info('this is a not.verbose information message');
 Add new logger methods through the `.logger`
 
 ```js
-app.logger.addLogger('status');
+app.logger.emitter('status');
 app.status('status message');
 //=> "status message"
 ```
@@ -43,8 +58,8 @@ app.status('status message');
 Logger methods may pass in a modifier function to stylize the output.
 
 ```js
-app.logger.addLogger('status', function() {
-  return this.stylize('yellow', arguments);
+app.logger.emitter('status', function() {
+  return this.yellow(...arguments);
 });
 app.status('status message');
 //=> "status message" <= will be yellow in the console
@@ -76,6 +91,8 @@ app.verbose.info('info message');
 
 ## Related projects
 
+* [base](https://www.npmjs.com/package/base): base is the foundation for creating modular, unit testable and highly pluggable node.js applications, starting… [more](https://www.npmjs.com/package/base) | [homepage](https://github.com/node-base/base)
+* [base-option](https://www.npmjs.com/package/base-option): Adds a few options methods to base, like `option`, `enable` and `disable`. See the readme… [more](https://www.npmjs.com/package/base-option) | [homepage](https://github.com/node-base/base-option)
 * [log-events](https://www.npmjs.com/package/log-events): Create custom, chainable logging methods that emit log events when called. | [homepage](https://github.com/doowb/log-events)
 * [verbalize](https://www.npmjs.com/package/verbalize): A pluggable logging utility with built-in colors, styles, and modes. | [homepage](https://github.com/jonschlinkert/verbalize)
 
@@ -85,13 +102,13 @@ Pull requests and stars are always welcome. For bugs and feature requests, [plea
 
 ## Building docs
 
-Generate readme and API documentation with [verb][]:
+Generate readme and API documentation with [verb](https://github.com/verbose/verb):
 
 ```sh
 $ npm install verb && npm run docs
 ```
 
-Or, if [verb][] is installed globally:
+Or, if [verb](https://github.com/verbose/verb) is installed globally:
 
 ```sh
 $ verb
