@@ -3,6 +3,7 @@
 var captureStream = require('capture-stream');
 var assert = require('assert');
 var Base = require('base');
+var option = require('base-option');
 var logger = require('./');
 var App, app;
 
@@ -14,6 +15,7 @@ describe('base-logger', function() {
         return new App(options);
       }
       Base.call(this, null, options);
+      this.use(option());
     }
     Base.extend(App);
 
@@ -39,30 +41,39 @@ describe('base-logger', function() {
   beforeEach(function() {
     // ensure prototype is fresh for each test
     App = create();
-    app = App();
+    app = App({logger: true});
     app.use(logger());
   });
 
   it('should create a new instance', function() {
-    app = new App();
+    app = new App({logger: true});
     assert(app);
     assert.equal(app instanceof App, true);
   });
 
   it('should create a new instance without using the `new` keyword', function() {
-    app = App();
+    app = App({logger: true});
     assert(app);
     assert.equal(app instanceof App, true);
   });
 
   it('should not redefine logger plugin', function() {
+    var called = false;
+    app.on('plugin', function(name) {
+      console.log(arguments);
+      if (name === 'base-logger') {
+        called = true;
+      }
+    });
+
     app.use(logger());
     assert.equal(typeof app.logger, 'function');
+    assert.equal(called, false);
   });
 
   it('should not overwrite an existing method with a logger method', function() {
     App = create();
-    app = new App();
+    app = new App({logger: true});
     app.error = function(str) {
       return 'error: ' + str;
     };
@@ -75,7 +86,7 @@ describe('base-logger', function() {
 
   it('should throw an error when trying to add a logger for a methods already on the app', function(cb) {
     App = create();
-    app = new App();
+    app = new App({logger: true});
     app.foo = function(str) {
       return 'foo' + str;
     };
@@ -353,12 +364,18 @@ describe('base-logger', function() {
   });
 
   it('should disable the default listener', function() {
-    app = new App();
+    app = new App({logger: true});
     app.use(logger({defaultListener: false}));
     var output = capture(process.stdout, function() {
       app.logger.error('nothing');
     });
     assert.equal(output, '');
+  });
+
+  it('should not add the logger when `options.logger` is disabled', function() {
+    app = new App();
+    app.use(logger());
+    assert.equal(typeof app.logger, 'undefined');
   });
 
   it('should be able to log a message directly with the `logger` property', function() {
