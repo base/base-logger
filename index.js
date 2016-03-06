@@ -35,22 +35,26 @@ module.exports = function logger(options) {
   var Logger = utils.verbalize.create();
 
   return function plugin(app) {
-    if (typeof this['logger'] !== 'undefined') return;
+    if (app.isRegistered('base-logger')) {
+      return;
+    }
     var self = this;
     var logger = new Logger();
     utils.sync(logger, 'options', function() {
       return self.options;
     });
 
-    logger.on('addLogger', addMethod(this));
-    logger.on('addMode', addMethod(this));
+    logger.on('emitter', addMethod(this));
+    logger.on('style', addMethod(this));
+    logger.on('mode', addMethod(this));
 
-    addMethods(this, logger.modifiers);
-    addMethods(this, logger.modes);
+    addMethods(this, logger.emitterKeys);
+    addMethods(this, logger.modeKeys);
+    addMethods(this, logger.styleKeys);
 
     if (opts.defaultListener === true) {
       logger.on('*', function(name, stats) {
-        this.handle(stats);
+        this.format(stats);
       });
     }
 
@@ -59,9 +63,7 @@ module.exports = function logger(options) {
       configurable: true,
       get: function() {
         function fn() {
-          var args = [].slice.call(arguments);
-          args.unshift('log');
-          return logger._emit.apply(logger, args);
+          return logger.log(...arguments);
         }
         fn.__proto__ = logger;
         return fn;
@@ -69,7 +71,7 @@ module.exports = function logger(options) {
     });
 
     function hasMethod(app, name) {
-      if (app.hasOwnProperty(name)) {
+      if (name in app) {
         return true;
       }
       return false;
@@ -91,9 +93,8 @@ module.exports = function logger(options) {
       };
     }
 
-    function addMethods(app, obj) {
+    function addMethods(app, methods) {
       var add = addMethod(app, true);
-      var methods = Object.keys(obj);
       var len = methods.length, i = -1;
       while (++i < len) {
         add(methods[i]);
